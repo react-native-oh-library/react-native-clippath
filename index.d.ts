@@ -1,5 +1,6 @@
 import React from "react";
 import { Constructor, NativeMethods, ViewProps } from "react-native";
+import {NativeProps} from './src/ClipPathNativeComponent'
 
 
 interface ClipPathViewProps extends ViewProps {
@@ -55,4 +56,8 @@ declare const ClipPathViewBase: Constructor<NativeMethods> & typeof ClipPathComp
 
 export  class ClipPathViewH extends ClipPathViewBase {}
 export  class ClipPathView extends ClipPathViewBase {}
+
+
+declare class ClipPath extends React.Component<NativeProps>{}
+export default ClipPath
 

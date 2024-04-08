@@ -1,14 +1,13 @@
 {
-  "name": "react-native-clippathview",
+  "name": "@react-native-oh-tpl/clip-path",
   "title": "React Native ClipPath",
-  "version": "1.1.8",
-  "description": "ClipPath Android Web IOS",
+  "version": "1.1.8-0.0.1",
+  "description": "ClipPath Android Web IOS Harmony",
   "main": "index.js",
   "files": [
+    "harmony",
     "README.md",
-    "android",
     "index.js",
-    "ios",
     "src",
     "index.d.ts",
     "react-native-clippath.podspec"
@@ -46,10 +45,13 @@
     "react-native": ">=0.60.0-rc.0 <1.0.x"
   },
   "devDependencies": {
-    "react": "^16.9.0",
-    "react-native": "^0.61.5"
+    "react": "*",
+    "react-native": "*"
   },
   "dependencies": {
     "svgpath": "^2.3.1"
+  },
+  "harmony": {
+    "alias": "react-native-clippathview"
   }
 }
