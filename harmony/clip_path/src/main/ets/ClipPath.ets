@@ -310,45 +310,49 @@ export struct ClipPath {
   // }
 
   build() {
-    RNViewBase({ ctx: this.ctx, tag: this.tag }) {
-      if (this.descriptor.props.showProperty) {
-        ListPanel({
-          arr: this.propertyArr
-        })
-      }
-      Shape() {
-        Path({
-          commands: this.descriptor.props.d
-        })
-        Column() {
-          this.childrenBuilder()
-          ForEach(this.descriptor.childrenTags, (tag: Tag) => {
-            Column() {
-              RNComponentFactory({ ctx: this.ctx, tag: tag, buildCustomComponent: this.buildCustomComponent })
-            }
-          }, (tag: Tag) => tag.toString())
+    Column() {
+      RNViewBase({ ctx: this.ctx, tag: this.tag }) {
+        if (this.descriptor.props.showProperty) {
+          ListPanel({
+            arr: this.propertyArr
+          })
         }
-        .alignItems(HorizontalAlign.Start)
-        // .width('100%')
-        // .height('100%')
-        // .clip(true)
+        Shape() {
+          Path({
+            commands: this.descriptor.props.d
+          })
+          Column() {
+            this.childrenBuilder()
+            ForEach(this.descriptor.childrenTags, (tag: Tag) => {
+              Column() {
+                RNComponentFactory({ ctx: this.ctx, tag: tag, buildCustomComponent: this.buildCustomComponent })
+              }
+            }, (tag: Tag) => tag.toString())
+          }
+          .alignItems(HorizontalAlign.Start)
+
+          // .width('100%')
+          // .height('100%')
+          // .clip(true)
+        }
+        .width(this.computedShapeWidth())
+        .height(this.computedShapeHeight())
+        // .backgroundColor(Color.Pink)
+        .key(this.computedKey())
+        .viewPort(this.computedViewBoxParam())
+        .fill(this.computedFill())
+        .stroke(this.computedStroke())
+        .strokeWidth(this.computedStrokeWidth())
+        .strokeMiterLimit(this.computedStrokeMiter())
+        .strokeLineCap(this.computedStrokeCap())
+        .strokeLineJoin(this.computedStrokeJoin())
+        // .zIndex(this.computedTranslateZ())
+        .translate(this.computedTranslateValue())
+        .scale(this.computedScaleValue())
+        .rotate(this.computedRotateValue())
+        .clip(this.computedClipParams())
       }
-      .width(this.computedShapeWidth())
-      .height(this.computedShapeHeight())
-      // .backgroundColor(Color.Pink)
-      .key(this.computedKey())
-      .viewPort(this.computedViewBoxParam())
-      .fill(this.computedFill())
-      .stroke(this.computedStroke())
-      .strokeWidth(this.computedStrokeWidth())
-      .strokeMiterLimit(this.computedStrokeMiter())
-      .strokeLineCap(this.computedStrokeCap())
-      .strokeLineJoin(this.computedStrokeJoin())
-      .zIndex(this.computedTranslateZ())
-      .translate(this.computedTranslateValue())
-      .scale(this.computedScaleValue())
-      .rotate(this.computedRotateValue())
-      .clip(this.computedClipParams())
     }
+    .zIndex(this.computedTranslateZ())
   }
 }

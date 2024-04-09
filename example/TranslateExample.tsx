@@ -9,6 +9,25 @@ export default function index() {
 
   return (
     <ScrollView style={{ width: '100%', height: '100%'}}>
+      <Text>默认 translateZ</Text>
+      <ClipPath viewBox={viewBox} d={myPath10} fill="#f00" style={{ width: 200, height: 150,  }}>
+        <Text>MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM</Text>
+      </ClipPath>
+      <ClipPath viewBox={viewBox} d={myPath10} fill="#0f0" style={{ width: 200, height: 150,  position: 'absolute', top: 30, left: 20 }}>
+        <Text>MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM</Text>
+      </ClipPath>
+
+      <View>   
+      <Text>红色 translateZ: 2, 绿色 translateZ: 1</Text>
+      <ClipPath  translateZ={2} viewBox={viewBox} d={myPath10} fill="#f00" style={{ width: 200, height: 150,  }}>
+        <Text>MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM</Text>
+      </ClipPath>
+      <ClipPath translateZ={1} viewBox={viewBox} d={myPath10} fill="#0f0" style={{ width: 200, height: 150,  position: 'absolute', top: 30, left: 20 }}>
+        <Text>MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM</Text>
+      </ClipPath>
+      </View> 
+
+      <Text>--------------------------------------------</Text>
       <Text>transX:0, transY: 0</Text>
       <ClipPath transX={0} transY={0} viewBox={viewBox} d={myPath10} fill="#f00" style={{ width: 200, height: 100, backgroundColor: '#ff0' }}>
         <Text>MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM</Text>

@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Button } from 'react-native';
 import React, { useState, useMemo, useCallback } from 'react';
 import BasicExample from './BasicExample';
+import ViewBoxExample from './ViewBoxExample'
 import StrokeExample from './StrokeExample';
 import TranslateExample from './TranslateExample';
 import RotateExample from './RotateExample';
@@ -16,6 +17,7 @@ type TDemoCliCk = (item: IDemoItem) => void
 
 const demos: IDemoItem[] = [
   { Component: BasicExample, name: 'basic', key: 'BasicExample' },
+  { Component: ViewBoxExample, name: 'viewBox', key: 'ViewBoxExample' },
   { Component: StrokeExample, name: 'stroke', key: 'StrokeExample' },
   { Component: TranslateExample, name: 'translate', key: 'TranslateExample' },
   { Component: RotateExample, name: 'rotate', key: 'RotateExample' },
