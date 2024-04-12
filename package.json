@@ -5,6 +5,7 @@
   "description": "ClipPath Android Web IOS Harmony",
   "main": "index.js",
   "files": [
+    "example",
     "harmony",
     "README.md",
     "index.js",
