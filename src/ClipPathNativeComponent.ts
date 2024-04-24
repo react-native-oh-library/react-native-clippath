@@ -7,10 +7,10 @@ import { Int32, WithDefault, Float } from "react-native/Libraries/Types/CodegenT
 
 export interface NativeProps extends ViewProps {
     color?: string;
-    openClip?: boolean;
-    fill?: WithDefault<string, '#f00'>;
-    stroke?: WithDefault<string, '#0f0'>;
-    showProperty?: WithDefault<boolean, true>;
+    openClip?: WithDefault<boolean, true>;
+    fill?: WithDefault<string, ''>;
+    stroke?: WithDefault<string, ''>;
+    showProperty?: WithDefault<boolean, false>;
   
     svgKey?: string;
     d?: string;
@@ -30,6 +30,7 @@ export interface NativeProps extends ViewProps {
     transY?: WithDefault<Int32, 0>;
     transPercentageValue?: WithDefault<boolean, false>;
     rot?: WithDefault<Int32, 0>;
+    rotO?: WithDefault<Int32, 0>;
     rotOx?: WithDefault<Int32, 0>;
     rotOy?: WithDefault<Int32, 0>;
     rotPercentageValue?: WithDefault<boolean, false>;

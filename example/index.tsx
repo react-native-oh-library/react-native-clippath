@@ -6,6 +6,7 @@ import StrokeExample from './StrokeExample';
 import TranslateExample from './TranslateExample';
 import RotateExample from './RotateExample';
 import ScaleExample from './ScaleExample';
+import ShunFengExample from './ShunFengExample';
 
 interface IDemoItem {
   name: string;
@@ -22,6 +23,7 @@ const demos: IDemoItem[] = [
   { Component: TranslateExample, name: 'translate', key: 'TranslateExample' },
   { Component: RotateExample, name: 'rotate', key: 'RotateExample' },
   { Component: ScaleExample, name: 'scale', key: 'ScaleExample' },
+  { Component: ShunFengExample, name: 'shunfeng', key: 'ShunFengExample' },
 ];
 
 export default function Demo() {
@@ -54,7 +56,8 @@ export default function Demo() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.demoNav}>{demoMenu}</View>
+      
+      <View style={styles.demoNav}><Text>4.17</Text>{demoMenu}</View>
       {currentDemoKey && <View style={styles.demoPanel}>{currentDemo}</View>}
       {currentDemoKey && (
         <View style={styles.backButtonPanel}>

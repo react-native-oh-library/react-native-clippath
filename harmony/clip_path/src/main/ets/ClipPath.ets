@@ -1,11 +1,15 @@
-import { Descriptor, ComponentBuilderContext, ViewBaseProps, Tag } from 'rnoh';
-import { RNComponentFactory, RNOHContext, RNViewBase } from 'rnoh'
+import { RNComponentContext, RNViewBase, DescriptorWrapper, RNComponentFactory, Tag } from '@rnoh/react-native-openharmony';
+import {CustomComponentBuilder} from '@rnoh/react-native-openharmony/src/main/ets/RNOH'
+// import codegen 生成的内容
+import { RNC } from "@rnoh/react-native-openharmony/generated";
+
+
 import { TViewBox, IViewPort, TChildrenBuilder } from './types'
 import ListPanel from './ListPanel'
 
 export const CLIP_PATH_TYPE: string = "ClipPath"
 
-export interface ClipPathProps extends ViewBaseProps {
+export interface ClipPathProps {
   color?: string;
   openClip?: boolean;
   fill?: string;
@@ -38,60 +42,74 @@ export interface ClipPathProps extends ViewBaseProps {
   scPercentageValue?: boolean;
 }
 
-export type ClipPathDescriptor = Descriptor<"ClipPath", ClipPathProps>
-
 @Component
 export struct ClipPath {
-  ctx!: RNOHContext
-  tag: number = 0
-  @State descriptor: ClipPathDescriptor = {} as ClipPathDescriptor
-  @BuilderParam buildCustomComponent: (componentBuilderContext: ComponentBuilderContext) => void
+  public static readonly NAME = RNC.ClipPath.NAME
+  public ctx!: RNComponentContext
+  public tag: number = 0
+  @State private descriptorWrapper: RNC.ClipPath.DescriptorWrapper = {} as RNC.ClipPath.DescriptorWrapper
+  private eventEmitter: RNC.ClipPath.EventEmitter | undefined = undefined
+  private cleanUpCallbacks: (() => void)[] = []
   @BuilderParam childrenBuilder: TChildrenBuilder = this.defaultChildrenBuilder
-  private unregisterDescriptorChangesListener?: () => void = undefined
+
+  @BuilderParam public buildCustomComponent: CustomComponentBuilder
+  @State private childrenTags: Tag[] = []
   @State propertyArr: Array<string> = [];
 
   aboutToAppear() {
-    this.descriptor = this.ctx.descriptorRegistry.getDescriptor<ClipPathDescriptor>(this.tag)
-    this.unregisterDescriptorChangesListener = this.ctx.descriptorRegistry.subscribeToDescriptorChanges(this.tag,
-      (newDescriptor) => {
-        this.descriptor = (newDescriptor as ClipPathDescriptor)
+    this.eventEmitter = new RNC.ClipPath.EventEmitter(this.ctx.rnInstance, this.tag)
+    this.onDescriptorWrapperChange(this.ctx.descriptorRegistry.findDescriptorWrapperByTag<RNC.ClipPath.DescriptorWrapper>(this.tag)!)
+    this.cleanUpCallbacks.push(this.ctx.descriptorRegistry.subscribeToDescriptorChanges(this.tag,
+      (_descriptor, newDescriptorWrapper) => {
+        this.onDescriptorWrapperChange(newDescriptorWrapper! as RNC.ClipPath.DescriptorWrapper)
       }
-    )
-    console.log(`FG ${JSON.stringify(this.descriptor.props)}`)
-    this.propertyArr = Object.entries(this.descriptor.props).map((item: Array<string>) => `${item[0]}: ${item[1]}`)
-    console.log(`FG ${this.propertyArr}`)
-    console.log(`FG ${JSON.stringify(this.descriptor)}`)
+    ))
+
+    const props = this.descriptorWrapper.props
+    console.log(`FG 1.1 ${JSON.stringify(props)}`)
+    this.propertyArr = Object.entries(props).map((item: Array<string>) => `${item[0]}: ${item[1]}`)
+    console.log(`FG 2 ${this.propertyArr}`)
+    console.log(`FG 3 ${JSON.stringify(this.descriptorWrapper)}`)
+  }
+  
+  private onDescriptorWrapperChange(descriptorWrapper: RNC.ClipPath.DescriptorWrapper) {
+    this.descriptorWrapper = descriptorWrapper
+    this.childrenTags = descriptorWrapper.childrenTags
   }
 
   aboutToDisappear() {
-    this.unregisterDescriptorChangesListener?.()
+    this.cleanUpCallbacks.forEach(cb => cb())
   }
 
+
   computedShapeWidth(): string {
-    const viewBox = this.computedViewBoxParam()
-    return String(viewBox.width) || 'auto'
+    const viewBox = this.descriptorWrapper.props.viewBox;
+    const width = viewBox && viewBox[2] ? viewBox[2] : 0;
+    if (width) {
+      return `${width}px`
+    }
+    return ''
   }
 
   computedShapeHeight(): string {
-    const viewBox = this.computedViewBoxParam()
-    return String(viewBox.height) || 'auto'
+    const viewBox = this.descriptorWrapper.props.viewBox;
+    const height = viewBox && viewBox[3] ? viewBox[3] : 0;
+    if (height) {
+      return `${height}px`
+    }
+    return ''
   }
 
   computedClipParams(): PathAttribute | boolean {
-    const openClip = this.descriptor.props.openClip
-    const d = this.descriptor.props.d
+    const openClip = this.descriptorWrapper.props.openClip
+    const d = this.descriptorWrapper.props.d
     // const viewBox = this.computedViewBoxParam()
     return openClip ? new Path({ commands: d }) : false
   }
+
   computedViewBoxParam(): IViewPort {
-    const viewBox = this.descriptor.props.viewBox
+    const viewBox = this.descriptorWrapper.props.viewBox
     if (viewBox?.length !== 4) return {}
-    // return {
-    //   x: viewBox[0],
-    //   y: viewBox[1],
-    //   width: viewBox[2],
-    //   height: viewBox[3]
-    // }
     return {
       x: viewBox[0] + 'px',
       y: viewBox[1] + 'px',
@@ -101,32 +119,32 @@ export struct ClipPath {
   }
 
   computedKey(): string {
-    let key = this.descriptor.props.svgKey || String(Date.now())
+    let key = this.descriptorWrapper.props.svgKey || String(Date.now())
     return key
   }
 
   computedFill(): ResourceColor {
-    let fill = this.descriptor.props.fill || '#f00'
+    let fill = this.descriptorWrapper.props.fill || Color.Transparent
     return fill
   }
 
   computedStroke(): ResourceColor {
-    let stroke = this.descriptor.props.stroke || '#0ff'
+    let stroke = this.descriptorWrapper.props.stroke || Color.Transparent
     return stroke
   }
 
   computedStrokeWidth(): number {
-    let strokeWidth = this.descriptor.props.strokeWidth || 0
+    let strokeWidth = this.descriptorWrapper.props.strokeWidth || 0
     return strokeWidth
   }
 
   computedStrokeMiter(): number {
-    let strokeMiter = this.descriptor.props.strokeMiter || 4
+    let strokeMiter = this.descriptorWrapper.props.strokeMiter || 4
     return strokeMiter
   }
 
   computedStrokeCap(): LineCapStyle {
-    let strokeCap = this.descriptor.props.strokeCap || 'butt'
+    let strokeCap = this.descriptorWrapper.props.strokeCap || 'butt'
     if(String(strokeCap).toLowerCase() === "butt") return LineCapStyle.Butt
     if(String(strokeCap).toLowerCase() === "round") return LineCapStyle.Round
     if(String(strokeCap).toLowerCase() === "square") return LineCapStyle.Square
@@ -134,7 +152,7 @@ export struct ClipPath {
   }
 
   computedStrokeJoin(): LineJoinStyle {
-    let strokeJoin = this.descriptor.props.strokeJoin || 'miter'
+    let strokeJoin = this.descriptorWrapper.props.strokeJoin || 'miter'
     // bevel/miter/round
     if(String(strokeJoin).toLowerCase() === "miter") return LineJoinStyle.Miter
     if(String(strokeJoin).toLowerCase() === "round") return LineJoinStyle.Round
@@ -143,19 +161,15 @@ export struct ClipPath {
   }
 
   computedTranslateZ(): number {
-    let translateZ = this.descriptor.props.translateZ || 1
+    let translateZ = this.descriptorWrapper.props.translateZ || 1
     return translateZ
   }
 
   computedTranslateValue() {
-    const transX = this.descriptor.props.transX || 0
-    const transY = this.descriptor.props.transY || 0
-    const transPercentageValue = this.descriptor.props.transPercentageValue || false
-    // let val: TranslateOptions = {
-    //   x: transX || 0,
-    //   y: transY || 0,
-    //   z: 0
-    // }
+    const transX = this.descriptorWrapper.props.transX || 0
+    const transY = this.descriptorWrapper.props.transY || 0
+    const transPercentageValue = this.descriptorWrapper.props.transPercentageValue || false
+
     let val: TranslateOptions = {
       x: `${transX}px`,
       y: `${transY}px`,
@@ -169,23 +183,16 @@ export struct ClipPath {
   }
 
   computedRotateValue(): RotateOptions {
-    const rot = this.descriptor.props.rot || 0
-    const rotO = this.descriptor.props.rotO || 0
-    const rotOx = this.descriptor.props.rotOx || 0
-    const rotOy = this.descriptor.props.rotOy || 0
-    const rotPercentageValue = this.descriptor.props.rotPercentageValue || false
+    const rot = this.descriptorWrapper.props.rot || 0
+    const rotO = this.descriptorWrapper.props.rotO || 0
+    const rotOx = this.descriptorWrapper.props.rotOx || 0
+    const rotOy = this.descriptorWrapper.props.rotOy || 0
+    const rotPercentageValue = this.descriptorWrapper.props.rotPercentageValue || false
     let val = {
       angle: rot,
       centerX: rotO,
       centerY: rotO
     } as RotateOptions
-
-    // if(rotOx || (rotOx === 0)){
-    //   val.centerX = rotOx || 0
-    // }
-    // if(rotOy || (rotOy === 0)){
-    //   val.centerY = rotOy || 0
-    // }
 
     if (rotOx) {
       val.centerX = `${rotOx}px`
@@ -218,13 +225,13 @@ export struct ClipPath {
   }
 
   computedScaleValue(): RotateOptions {
-    const sc = this.descriptor.props.sc || 1
-    const scX = this.descriptor.props.scX || 1
-    const scY = this.descriptor.props.scY || 1
-    const scO = this.descriptor.props.scO || 0
-    const scOx = this.descriptor.props.scOx || 0
-    const scOy = this.descriptor.props.scOy || 0
-    const scPercentageValue = this.descriptor.props.scPercentageValue || false
+    const sc = this.descriptorWrapper.props.sc || 1
+    const scX = this.descriptorWrapper.props.scX || 1
+    const scY = this.descriptorWrapper.props.scY || 1
+    const scO = this.descriptorWrapper.props.scO || 0
+    const scOx = this.descriptorWrapper.props.scOx || 0
+    const scOy = this.descriptorWrapper.props.scOy || 0
+    const scPercentageValue = this.descriptorWrapper.props.scPercentageValue || false
     let val = {
       x: sc,
       y: sc,
@@ -232,13 +239,6 @@ export struct ClipPath {
       centerX: `${scO}px`,
       centerY: `${scO}px`
     } as RotateOptions
-
-    // if(scOx || (scOx === 0)){
-    //   val.centerX = scOx || 0
-    // }
-    // if(scOy || (scOy === 0)){
-    //   val.centerY = scOy || 0
-    // }
 
     if (scX !== 1) {
       val.x = scX
@@ -272,72 +272,37 @@ export struct ClipPath {
   defaultChildrenBuilder() {
   };
 
-  // build() {
-  //   Column() {
-  //     if (this.descriptor.props.showProperty) {
-  //       ListPanel({
-  //         arr: this.propertyArr
-  //       })
-  //     }
-  //     Shape() {
-  //       Path({
-  //         commands: this.descriptor.props.d
-  //       })
-  //       Column() {
-  //         this.childrenBuilder()
-  //         ForEach(this.descriptor.childrenTags, (tag: Tag) => {
-  //           Column() {
-  //             RNComponentFactory({ ctx: this.ctx, tag: tag, buildCustomComponent: this.buildCustomComponent })
-  //           }
-  //         }, (tag: Tag) => tag.toString())
-  //       }
-  //       .alignItems(HorizontalAlign.Start)
-  //     }
-  //     .key(this.computedKey())
-  //     .viewPort(this.computedViewBoxParam())
-  //     .fill(this.computedFill())
-  //     .stroke(this.computedStroke())
-  //     .strokeWidth(this.computedStrokeWidth())
-  //     .strokeMiterLimit(this.computedStrokeMiter())
-  //     .strokeLineCap(this.computedStrokeCap())
-  //     .strokeLineJoin(this.computedStrokeJoin())
-  //     .zIndex(this.computedTranslateZ())
-  //     .translate(this.computedTranslateValue())
-  //     .scale(this.computedScaleValue())
-  //     .rotate(this.computedRotateValue())
-  //     .clip(this.computedClipParams())
-  //   }
-  // }
-
   build() {
     Column() {
       RNViewBase({ ctx: this.ctx, tag: this.tag }) {
-        if (this.descriptor.props.showProperty) {
+        if (this.descriptorWrapper.props.showProperty) {
           ListPanel({
             arr: this.propertyArr
           })
         }
         Shape() {
           Path({
-            commands: this.descriptor.props.d
+            commands: this.descriptorWrapper.props.d
           })
           Column() {
             this.childrenBuilder()
-            ForEach(this.descriptor.childrenTags, (tag: Tag) => {
-              Column() {
-                RNComponentFactory({ ctx: this.ctx, tag: tag, buildCustomComponent: this.buildCustomComponent })
-              }
-            }, (tag: Tag) => tag.toString())
+            if (this.ctx instanceof RNComponentContext) {
+              LazyForEach(this.ctx.createComponentDataSource({ tag: this.tag }),
+                (descriptorWrapper: DescriptorWrapper) => {
+                  (this.ctx as RNComponentContext).wrappedRNComponentBuilder.builder((this.ctx as RNComponentContext), descriptorWrapper.tag)
+                },
+                (descriptorWrapper: DescriptorWrapper) => descriptorWrapper.tag.toString() + "@" + descriptorWrapper.renderKey
+              )
+            } else {
+              ForEach(this.childrenTags, (childrenTag: Tag) => {
+                RNComponentFactory({ ctx: this.ctx, tag: childrenTag, buildCustomComponent: this.buildCustomComponent })
+              }, (childrenTag: Tag) => childrenTag.toString())
+            }
           }
           .alignItems(HorizontalAlign.Start)
-
-          // .width('100%')
-          // .height('100%')
-          // .clip(true)
         }
         .width(this.computedShapeWidth())
         .height(this.computedShapeHeight())
-        // .backgroundColor(Color.Pink)
         .key(this.computedKey())
         .viewPort(this.computedViewBoxParam())
         .fill(this.computedFill())
@@ -346,7 +311,6 @@ export struct ClipPath {
         .strokeMiterLimit(this.computedStrokeMiter())
         .strokeLineCap(this.computedStrokeCap())
         .strokeLineJoin(this.computedStrokeJoin())
-        // .zIndex(this.computedTranslateZ())
         .translate(this.computedTranslateValue())
         .scale(this.computedScaleValue())
         .rotate(this.computedRotateValue())
