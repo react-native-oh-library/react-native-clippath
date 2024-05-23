@@ -7,9 +7,5 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@rnoh/react-native-openharmony": "file:../react_native_openharmony",
-    "rnoh": "file:../react_native_openharmony", // old name for react_native_openharmony module
   },
-//  "devDependencies": {
-//    "rnoh": "file:../rnoh"
-//  }
 }

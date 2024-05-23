@@ -1,11 +1,9 @@
-// import { Descriptor, ComponentBuilderContext, ViewBaseProps, Tag } from 'rnoh';
-// import { RNComponentFactory, RNOHContext, RNViewBase } from 'rnoh'
+
 import { TViewBox, IViewPort, TChildrenBuilder } from './types'
 import ListPanel from './ListPanel'
 
 export const CLIP_PATH_TYPE: string = "ClipPath"
 
-// export interface ClipPathProps extends ViewBaseProps {
 export interface ClipPathProps {
   color?: string;
   openClip?: boolean;
