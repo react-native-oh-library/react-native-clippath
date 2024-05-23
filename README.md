@@ -16,29 +16,6 @@ web: svg
 
 `yarn add react-native-clippathview`
 
-## Harmony
-
-```js
-import { View, Text, ScrollView } from 'react-native'
-import React from 'react'
-import ClipPath from '@react-native-oh-tpl/clip-path'
-
-export default function index() {
-  const viewBox = [0, 0, 400, 400]
-  const path = 'M 200 0 L 280 100 L 400 160 L 330 270 L 320 400 L 200 350 L 80 400 L 80 270 L 0 160 L 120 100 Z'
-
-  return (
-    <ScrollView style={{  width: '100%', height: '100%' }}>
-      <ClipPath viewBox={viewBox} d={path}  style={{ width: 200, height: 100, backgroundColor: '#ff0' }}>
-        <Text style={{ lineHeight: 5, fontSize: 6 }}>children</Text>
-        <Text style={{ lineHeight: 5, fontSize: 6 }}>children</Text>
-        <Text style={{ lineHeight: 5, fontSize: 6 }}>children</Text>
-      </ClipPath>
-    </ScrollView>
-  )
-}
-```
-
 ## IOS
 
 **Add Swift**
@@ -71,6 +48,28 @@ import {ClipPathView , ClipPathViewH } from 'react-native-clippathview'
         
     </ClipPathView>
 
+```
+## Harmony
+
+```js
+import { View, Text, ScrollView } from 'react-native'
+import React from 'react'
+import { ClipPathView } from 'react-native-clippathview'
+
+export default function index() {
+  const viewBox = [0, 0, 400, 400]
+  const path = 'M 200 0 L 280 100 L 400 160 L 330 270 L 320 400 L 200 350 L 80 400 L 80 270 L 0 160 L 120 100 Z'
+
+  return (
+    <ScrollView style={{  width: '100%', height: '100%' }}>
+      <ClipPath d={path}  style={{ backgroundColor: '#ff0' }}>
+        <Text style={{ lineHeight: 5, fontSize: 6 }}>children</Text>
+        <Text style={{ lineHeight: 5, fontSize: 6 }}>children</Text>
+        <Text style={{ lineHeight: 5, fontSize: 6 }}>children</Text>
+      </ClipPath>
+    </ScrollView>
+  )
+}
 ```
 
 ## Props   
