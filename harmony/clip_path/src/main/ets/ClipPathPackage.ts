@@ -13,11 +13,3 @@ export class ClipPathPackage extends RNPackage {
   }
 }
 
-
-// 根 ts.ts
-export * from "./src/main/ets/ClipPathPackage";
-
-// 根 index.ts
-export * from "./ts";
-export * from './src/main/ets/ClipPath'
-

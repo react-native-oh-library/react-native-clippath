@@ -88,10 +88,7 @@ export struct ClipPathCode {
   //       this.descriptor = (newDescriptor as ClipPathDescriptor)
   //     }
   //   )
-  //   console.log(`FG ${JSON.stringify(this)}`)
   //   this.propertyArr = Object.entries(this).map((item: Array<string>) => `${item[0]}: ${item[1]}`)
-  //   console.log(`FG ${this.propertyArr}`)
-  //   console.log(`FG ${JSON.stringify(this.descriptor)}`)
   // }
 
   // aboutToDisappear() {
@@ -244,7 +241,6 @@ export struct ClipPathCode {
     if (rotO === 0 && rotOy === 0) {
       val.centerY = scaleConfig.centerY;
     }
-    console.log(`FG rotate ${JSON.stringify(val)}`)
     return val
   }
 
@@ -295,7 +291,6 @@ export struct ClipPathCode {
       }
     }
 
-    console.log(`FG scale ${JSON.stringify(val)}`)
     return val
   }
 

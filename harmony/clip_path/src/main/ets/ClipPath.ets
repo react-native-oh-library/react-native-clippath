@@ -2,6 +2,7 @@ import { RNComponentContext, RNViewBase, DescriptorWrapper, RNComponentFactory, 
 import {CustomComponentBuilder} from '@rnoh/react-native-openharmony/src/main/ets/RNOH'
 // import codegen 生成的内容
 import { RNC } from "@rnoh/react-native-openharmony/generated";
+import Logger from "./Logger";
 
 
 import { TViewBox, IViewPort, TChildrenBuilder } from './types'
@@ -57,6 +58,7 @@ export struct ClipPath {
   @State propertyArr: Array<string> = [];
 
   aboutToAppear() {
+    Logger.info(`${ClipPath.NAME}: aboutToAppear.`);
     this.eventEmitter = new RNC.ClipPath.EventEmitter(this.ctx.rnInstance, this.tag)
     this.onDescriptorWrapperChange(this.ctx.descriptorRegistry.findDescriptorWrapperByTag<RNC.ClipPath.DescriptorWrapper>(this.tag)!)
     this.cleanUpCallbacks.push(this.ctx.descriptorRegistry.subscribeToDescriptorChanges(this.tag,
@@ -66,18 +68,16 @@ export struct ClipPath {
     ))
 
     const props = this.descriptorWrapper.props
-    console.log(`FG 1.1 ${JSON.stringify(props)}`)
     this.propertyArr = Object.entries(props).map((item: Array<string>) => `${item[0]}: ${item[1]}`)
-    console.log(`FG 2 ${this.propertyArr}`)
-    console.log(`FG 3 ${JSON.stringify(this.descriptorWrapper)}`)
   }
-  
+
   private onDescriptorWrapperChange(descriptorWrapper: RNC.ClipPath.DescriptorWrapper) {
     this.descriptorWrapper = descriptorWrapper
     this.childrenTags = descriptorWrapper.childrenTags
   }
 
   aboutToDisappear() {
+    Logger.info(`${ClipPath.NAME}: aboutToDisappear.`);
     this.cleanUpCallbacks.forEach(cb => cb())
   }
 
@@ -220,7 +220,6 @@ export struct ClipPath {
     if (rotO === 0 && rotOy === 0) {
       val.centerY = scaleConfig.centerY;
     }
-    console.log(`FG rotate ${JSON.stringify(val)}`)
     return val
   }
 
@@ -264,7 +263,6 @@ export struct ClipPath {
       }
     }
 
-    console.log(`FG scale ${JSON.stringify(val)}`)
     return val
   }
 
