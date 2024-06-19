@@ -1,4 +1,3 @@
-
 import { TViewBox, IViewPort, TChildrenBuilder } from './types'
 import ListPanel from './ListPanel'
 
@@ -71,32 +70,8 @@ export struct ClipPathCode {
   @Prop scOx: number = 0;
   @Prop scOy: number = 0;
   @Prop scPercentageValue: boolean = false;
-
-
-  // ctx!: RNOHContext
-  // tag: number = 0
-  // @State descriptor: ClipPathDescriptor = {} as ClipPathDescriptor
-  // @BuilderParam buildCustomComponent: (componentBuilderContext: ComponentBuilderContext) => void
   @BuilderParam childrenBuilder: TChildrenBuilder = this.defaultChildrenBuilder
-  // private unregisterDescriptorChangesListener?: () => void = undefined
-  @State propertyArr: Array<string> = [];
-
-  // aboutToAppear() {
-  //   this.descriptor = this.ctx.descriptorRegistry.getDescriptor<ClipPathDescriptor>(this.tag)
-  //   this.unregisterDescriptorChangesListener = this.ctx.descriptorRegistry.subscribeToDescriptorChanges(this.tag,
-  //     (newDescriptor) => {
-  //       this.descriptor = (newDescriptor as ClipPathDescriptor)
-  //     }
-  //   )
-  //   console.log(`FG ${JSON.stringify(this)}`)
-  //   this.propertyArr = Object.entries(this).map((item: Array<string>) => `${item[0]}: ${item[1]}`)
-  //   console.log(`FG ${this.propertyArr}`)
-  //   console.log(`FG ${JSON.stringify(this.descriptor)}`)
-  // }
-
-  // aboutToDisappear() {
-  //   this.unregisterDescriptorChangesListener?.()
-  // }
+   @State propertyArr: Array<string> = [];
 
   computedShapeWidth(): string {
     const viewBox = this.computedViewBoxParam()
@@ -111,18 +86,14 @@ export struct ClipPathCode {
   computedClipParams(): PathAttribute | boolean {
     const openClip = this.openClip
     const d = this.d
-    // const viewBox = this.computedViewBoxParam()
     return openClip ? new Path({ commands: d }) : false
   }
+
   computedViewBoxParam(): IViewPort {
     const viewBox = this.viewBox
-    if (viewBox?.length !== 4) return {}
-    // return {
-    //   x: viewBox[0],
-    //   y: viewBox[1],
-    //   width: viewBox[2],
-    //   height: viewBox[3]
-    // }
+    if (viewBox?.length !== 4) {
+      return {}
+    }
     return {
       x: viewBox[0] + 'px',
       y: viewBox[1] + 'px',
@@ -158,18 +129,30 @@ export struct ClipPathCode {
 
   computedStrokeCap(): LineCapStyle {
     let strokeCap = this.strokeCap || 'butt'
-    if(String(strokeCap).toLowerCase() === "butt") return LineCapStyle.Butt
-    if(String(strokeCap).toLowerCase() === "round") return LineCapStyle.Round
-    if(String(strokeCap).toLowerCase() === "square") return LineCapStyle.Square
+    if (String(strokeCap).toLowerCase() === "butt") {
+      return LineCapStyle.Butt
+    }
+    if (String(strokeCap).toLowerCase() === "round") {
+      return LineCapStyle.Round
+    }
+    if (String(strokeCap).toLowerCase() === "square") {
+      return LineCapStyle.Square
+    }
     return LineCapStyle.Butt
   }
 
   computedStrokeJoin(): LineJoinStyle {
     let strokeJoin = this.strokeJoin || 'miter'
     // bevel/miter/round
-    if(String(strokeJoin).toLowerCase() === "miter") return LineJoinStyle.Miter
-    if(String(strokeJoin).toLowerCase() === "round") return LineJoinStyle.Round
-    if(String(strokeJoin).toLowerCase() === "bevel") return LineJoinStyle.Bevel
+    if (String(strokeJoin).toLowerCase() === "miter") {
+      return LineJoinStyle.Miter
+    }
+    if (String(strokeJoin).toLowerCase() === "round") {
+      return LineJoinStyle.Round
+    }
+    if (String(strokeJoin).toLowerCase() === "bevel") {
+      return LineJoinStyle.Bevel
+    }
     return LineJoinStyle.Miter
   }
 
@@ -182,11 +165,6 @@ export struct ClipPathCode {
     const transX = this.transX || 0
     const transY = this.transY || 0
     const transPercentageValue = this.transPercentageValue || false
-    // let val: TranslateOptions = {
-    //   x: transX || 0,
-    //   y: transY || 0,
-    //   z: 0
-    // }
     let val: TranslateOptions = {
       x: `${transX}px`,
       y: `${transY}px`,
@@ -210,13 +188,6 @@ export struct ClipPathCode {
       centerX: rotO,
       centerY: rotO
     } as RotateOptions
-
-    // if(rotOx || (rotOx === 0)){
-    //   val.centerX = rotOx || 0
-    // }
-    // if(rotOy || (rotOy === 0)){
-    //   val.centerY = rotOy || 0
-    // }
 
     if (rotOx) {
       val.centerX = `${rotOx}px`
@@ -244,7 +215,6 @@ export struct ClipPathCode {
     if (rotO === 0 && rotOy === 0) {
       val.centerY = scaleConfig.centerY;
     }
-    console.log(`FG rotate ${JSON.stringify(val)}`)
     return val
   }
 
@@ -263,13 +233,6 @@ export struct ClipPathCode {
       centerX: `${scO}px`,
       centerY: `${scO}px`
     } as RotateOptions
-
-    // if(scOx || (scOx === 0)){
-    //   val.centerX = scOx || 0
-    // }
-    // if(scOy || (scOy === 0)){
-    //   val.centerY = scOy || 0
-    // }
 
     if (scX !== 1) {
       val.x = scX
@@ -295,7 +258,6 @@ export struct ClipPathCode {
       }
     }
 
-    console.log(`FG scale ${JSON.stringify(val)}`)
     return val
   }
 
@@ -303,45 +265,7 @@ export struct ClipPathCode {
   defaultChildrenBuilder() {
   };
 
-  // build() {
-  //   Column() {
-  //     if (this.showProperty) {
-  //       ListPanel({
-  //         arr: this.propertyArr
-  //       })
-  //     }
-  //     Shape() {
-  //       Path({
-  //         commands: this.d
-  //       })
-  //       Column() {
-  //         this.childrenBuilder()
-  //         ForEach(this.descriptor.childrenTags, (tag: Tag) => {
-  //           Column() {
-  //             RNComponentFactory({ ctx: this.ctx, tag: tag, buildCustomComponent: this.buildCustomComponent })
-  //           }
-  //         }, (tag: Tag) => tag.toString())
-  //       }
-  //       .alignItems(HorizontalAlign.Start)
-  //     }
-  //     .key(this.computedKey())
-  //     .viewPort(this.computedViewBoxParam())
-  //     .fill(this.computedFill())
-  //     .stroke(this.computedStroke())
-  //     .strokeWidth(this.computedStrokeWidth())
-  //     .strokeMiterLimit(this.computedStrokeMiter())
-  //     .strokeLineCap(this.computedStrokeCap())
-  //     .strokeLineJoin(this.computedStrokeJoin())
-  //     .zIndex(this.computedTranslateZ())
-  //     .translate(this.computedTranslateValue())
-  //     .scale(this.computedScaleValue())
-  //     .rotate(this.computedRotateValue())
-  //     .clip(this.computedClipParams())
-  //   }
-  // }
-
   build() {
-    // RNViewBase({ ctx: this.ctx, tag: this.tag }) {
     Column() {
       if (this.showProperty) {
         ListPanel({
@@ -354,20 +278,11 @@ export struct ClipPathCode {
         })
         Column() {
           this.childrenBuilder()
-          // ForEach(this.descriptor.childrenTags, (tag: Tag) => {
-          //   Column() {
-          //     RNComponentFactory({ ctx: this.ctx, tag: tag, buildCustomComponent: this.buildCustomComponent })
-          //   }
-          // }, (tag: Tag) => tag.toString())
         }
         .alignItems(HorizontalAlign.Start)
-        // .width('100%')
-        // .height('100%')
-        // .clip(true)
       }
       .width(this.computedShapeWidth())
       .height(this.computedShapeHeight())
-      // .backgroundColor(Color.Pink)
       .key(this.computedKey())
       .viewPort(this.computedViewBoxParam())
       .fill(this.computedFill())
