@@ -1,0 +1,14 @@
+{
+  "license": "MIT License",
+  "devDependencies": {
+  },
+  "author": "",
+  "name": "@react-native-oh-tpl/react-native-clippathview",
+  "description": "Please describe the basic information.",
+  "main": "index.ets",
+  "version": "1.1.8-0.2.0",
+  "dependencies": {
+    "@rnoh/react-native-openharmony": "file:../react_native_openharmony"
+  },
+  "compileOnlyDependencies": {}
+}
