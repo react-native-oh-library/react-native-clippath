@@ -4,6 +4,7 @@
   "version": "1.1.8-0.2.0",
   "description": "ClipPath Android Web IOS Harmony",
   "main": "index.js",
+  "types": "index.d.ts",
   "files": [
     "harmony",
     "README.md",
@@ -21,6 +22,7 @@
     "baseUrl": "https://github.com/Only-IceSoul/react-native-clippath"
   },
   "keywords": [
+    "harmony",
     "react-native",
     "clippath",
     "clip",
@@ -49,15 +51,10 @@
     "react-native": "*"
   },
   "dependencies": {
-    "react-native-clippathview": "^1.1.8",
+    "react-native-clippathview": "1.1.8",
     "svgpath": "^2.3.1"
   },
   "harmony": {
-    "alias": "react-native-clippathview",
-    "codegenConfig": {
-      "specPaths": [
-        "./src"
-      ]
-    }
+    "alias": "react-native-clippathview"
   }
 }
