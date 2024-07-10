@@ -1,6 +1,6 @@
 {
-  "name": "@react-native-oh-tpl/clip-path",
-  "title": "React Native ClipPath",
+  "name": "@react-native-oh-tpl/react-native-clippathview",
+  "title": "React Native ClipPathView",
   "version": "1.1.8-0.1.5",
   "description": "ClipPath Android Web IOS Harmony",
   "main": "index.js",
