@@ -1,6 +1,6 @@
 import { requireNativeComponent } from 'react-native';
 
 
-const ClipPathMobile = requireNativeComponent('JJSClipPath',null) 
+const ClipPathMobile = requireNativeComponent('RNCClipPathView',null) 
 
 export default ClipPathMobile
