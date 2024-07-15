@@ -66,7 +66,16 @@ ClipPathViewNoneNode::~ClipPathViewNoneNode() {
     NativeNodeApi::getInstance()->unregisterNodeCustomEvent(m_nodeHandle, ARKUI_NODE_CUSTOM_EVENT_ON_MEASURE);
     OH_Drawing_RectDestroy(mRectVb);
     OH_Drawing_RectDestroy(mRectVbDensity);
+    OH_Drawing_RectDestroy(mBounds);
+    OH_Drawing_RectDestroy(mRectPath);
+    OH_Drawing_PathDestroy(mPath);
+    OH_Drawing_PathDestroy(mPath2);
+    OH_Drawing_MatrixDestroy(mMatrix);
+    OH_Drawing_PenDestroy(mPaint);
+    OH_Drawing_PenDestroy(mPaintStroke);
+    OH_Drawing_CanvasDestroy(canvas);
     delete canvasCallback_;
+    delete mProps;
     canvasCallback_ = nullptr;
 }
 
@@ -92,6 +101,7 @@ void ClipPathViewNoneNode::setPanStyleMode(OH_Drawing_Canvas *canvas, int type) 
         break;
     }
     OH_Drawing_CanvasAttachBrush(canvas, cBrush);
+    OH_Drawing_BrushDestroy(cBrush);
 }
 
 void ClipPathViewNoneNode::OnDraw(ArkUI_NodeCustomEvent *event) {
@@ -110,6 +120,9 @@ void ClipPathViewNoneNode::OnDraw(ArkUI_NodeCustomEvent *event) {
     OH_Drawing_CanvasSaveLayer(canvas, OH_Drawing_RectCreate(0.0f, 0.0f, width_, height_), cBrush_);
 
     drawPath(canvas);
+    OH_Drawing_RectDestroy(canvasRect);
+    OH_Drawing_BrushDestroy(cBrush_back);
+    OH_Drawing_BrushDestroy(cBrush_);
 }
 
 void ClipPathViewNoneNode::drawPath(OH_Drawing_Canvas *canvas) {
@@ -300,12 +313,11 @@ void ClipPathViewNoneNode::setPaintStrokeProps() {
     OH_Drawing_PenSetJoin(mPaintStroke, mProps->getStrokeJoin());
     OH_Drawing_PenSetMiterLimit(mPaintStroke, mProps->getStrokeMiter());
     OH_Drawing_PathReset(mPath2);
+    mPath2 = OH_Drawing_PathCopy(mPath);
     if (mProps->getStrokeStart() != 0.0f || mProps->getStrokeEnd() != 1.0f) {
         OH_Drawing_PathMoveTo(mPath2, OH_Drawing_PathGetLength(mPath2, false) * mProps->getStrokeStart(),
                               OH_Drawing_PathGetLength(mPath2, false) * mProps->getStrokeEnd());
         OH_Drawing_PathLineTo(mPath2, 0.0f, 0.0f);
-    } else {
-        mPath2 = OH_Drawing_PathCopy(mPath);
     }
 }
 
