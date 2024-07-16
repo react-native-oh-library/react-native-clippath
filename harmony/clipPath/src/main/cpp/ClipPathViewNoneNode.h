@@ -81,6 +81,7 @@ namespace rnoh {
         OH_Drawing_Path *mPath2{OH_Drawing_PathCreate()};
         OH_Drawing_Pen *mPaint{OH_Drawing_PenCreate()};
         OH_Drawing_Pen *mPaintStroke{OH_Drawing_PenCreate()};
+        OH_Drawing_Canvas *canvas{nullptr};
         float mTranslationX{0.0f};
         float mTranslationY{0.0f};
         bool mTranslationIsPercent{false};
