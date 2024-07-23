@@ -77,6 +77,7 @@ ClipPathViewNoneNode::~ClipPathViewNoneNode() {
     delete canvasCallback_;
     delete mProps;
     canvasCallback_ = nullptr;
+    mProps = nullptr;
 }
 
 void ClipPathViewNoneNode::insertChild(ArkUINode &child, std::size_t index) {
@@ -106,18 +107,19 @@ void ClipPathViewNoneNode::setPanStyleMode(OH_Drawing_Canvas *canvas, int type) 
 
 void ClipPathViewNoneNode::OnDraw(ArkUI_NodeCustomEvent *event) {
     auto *drawContext = OH_ArkUI_NodeCustomEvent_GetDrawContextInDraw(event);
-    auto *canvas = reinterpret_cast<OH_Drawing_Canvas *>(OH_ArkUI_DrawContext_GetCanvas(drawContext));
+    canvas = reinterpret_cast<OH_Drawing_Canvas *>(OH_ArkUI_DrawContext_GetCanvas(drawContext));
     auto width_ = OH_Drawing_CanvasGetWidth(canvas);
     auto height_ = OH_Drawing_CanvasGetHeight(canvas);
 
-    OH_Drawing_CanvasSaveLayer(canvas, OH_Drawing_RectCreate(0.0f, 0.0f, width_, height_), nullptr);
-    OH_Drawing_Brush *cBrush_1 = OH_Drawing_BrushCreate();
-    OH_Drawing_BrushSetColor(cBrush_1, OH_Drawing_ColorSetArgb(0xff, 0xff, 0xff, 0xff));
-    OH_Drawing_CanvasDrawBackground(canvas, cBrush_1);
+    auto canvasRect = OH_Drawing_RectCreate(0.0f, 0.0f, width_, height_);
+    OH_Drawing_CanvasSaveLayer(canvas, canvasRect, nullptr);
+    OH_Drawing_Brush *cBrush_back = OH_Drawing_BrushCreate();
+    OH_Drawing_BrushSetColor(cBrush_back, OH_Drawing_ColorSetArgb(0xff, 0xff, 0xff, 0xff));
+    OH_Drawing_CanvasDrawBackground(canvas, cBrush_back);
 
     OH_Drawing_Brush *cBrush_ = OH_Drawing_BrushCreate();
     OH_Drawing_BrushSetBlendMode(cBrush_, BLEND_MODE_DST_OUT);
-    OH_Drawing_CanvasSaveLayer(canvas, OH_Drawing_RectCreate(0.0f, 0.0f, width_, height_), cBrush_);
+    OH_Drawing_CanvasSaveLayer(canvas, canvasRect, cBrush_);
 
     drawPath(canvas);
     OH_Drawing_RectDestroy(canvasRect);
@@ -338,7 +340,7 @@ void ClipPathViewNoneNode::canvasTransform() {
             rotX = toDip(mRotationOx);
             rotY = toDip(mRotationOy);
         }
-        OH_Drawing_MatrixPostRotate(mMatrix, mRotation, 100, 100);
+        OH_Drawing_MatrixPostRotate(mMatrix, mRotation, rotX, rotY);
     }
 
     if (mScaleX != 1.0f || mScaleY != 1.0f) {

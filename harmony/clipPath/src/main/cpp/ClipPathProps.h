@@ -68,10 +68,10 @@ public:
                                                         : OH_Drawing_PenLineCapStyle::LINE_FLAT_CAP);
     }
     OH_Drawing_PenLineJoinStyle getStrokeJoin() {
-        return mStrokeCap.compare("round") == 0
+        return mStrokeJoin.compare("round") == 0
                    ? OH_Drawing_PenLineJoinStyle::LINE_ROUND_JOIN
-                   : (mStrokeCap.compare("bevel") == 0 ? OH_Drawing_PenLineJoinStyle::LINE_BEVEL_JOIN
-                                                       : OH_Drawing_PenLineJoinStyle::LINE_MITER_JOIN);
+                   : (mStrokeJoin.compare("bevel") == 0 ? OH_Drawing_PenLineJoinStyle::LINE_BEVEL_JOIN
+                                                        : OH_Drawing_PenLineJoinStyle::LINE_MITER_JOIN);
     }
 
     float getStrokeMiter() { return mStrokeMiter; }
