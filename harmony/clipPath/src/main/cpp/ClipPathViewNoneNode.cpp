@@ -73,11 +73,11 @@ ClipPathViewNoneNode::~ClipPathViewNoneNode() {
     OH_Drawing_MatrixDestroy(mMatrix);
     OH_Drawing_PenDestroy(mPaint);
     OH_Drawing_PenDestroy(mPaintStroke);
-    OH_Drawing_CanvasDestroy(canvas);
     delete canvasCallback_;
     delete mProps;
     canvasCallback_ = nullptr;
     mProps = nullptr;
+    canvas =nullptr;
 }
 
 void ClipPathViewNoneNode::insertChild(ArkUINode &child, std::size_t index) {
