@@ -2,9 +2,9 @@
     {
         "Name": "react-native-clippath",
         "License": "MIT License",
-        "License File": "https://github.com/Only-IceSoul/react-native-clippath/blob/main/LICENSE",
+        "License File": "LICENSE",
         "Version Number": "1.1.8",
-        "Owner" : "Only-IceSoul"
+        "Owner" : "xiafeng@huawei.com",
         "Upstream URL": "https://github.com/Only-IceSoul/react-native-clippath",
         "Description": "ClipPath - Hardware accelerated"
     }
