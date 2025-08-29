@@ -1,0 +1,7 @@
+{
+  module: {
+    name: 'clipPath',
+    type: 'har',
+    deviceTypes: ['default'],
+  },
+}

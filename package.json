@@ -1,9 +1,10 @@
 {
-  "name": "@react-native-oh-tpl/react-native-clippathview",
-  "title": "React Native ClipPathView",
-  "version": "1.1.8-0.1.6",
+  "name": "@react-native-ohos/react-native-clippathview",
+  "title": "React Native ClipPath",
+  "version": "1.1.8",
   "description": "ClipPath Android Web IOS Harmony",
   "main": "index.js",
+  "types": "index.d.ts",
   "files": [
     "harmony",
     "README.md",
@@ -17,10 +18,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Only-IceSoul/react-native-clippath.git",
-    "baseUrl": "https://github.com/Only-IceSoul/react-native-clippath"
+    "url": "git+https://github.com/react-native-oh-library/react-native-clippath.git",
+    "baseUrl": "https://github.com/react-native-oh-library/react-native-clippath"
   },
   "keywords": [
+    "harmony",
     "react-native",
     "clippath",
     "clip",
@@ -37,6 +39,10 @@
     "name": "Juan J LF",
     "email": "justinjlf21@gmail.com"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "license": "MIT",
   "licenseFilename": "LICENSE",
   "readmeFilename": "README.md",
@@ -49,15 +55,10 @@
     "react-native": "*"
   },
   "dependencies": {
-    "react-native-clippathview": "^1.1.8",
+    "react-native-clippathview": "1.1.8",
     "svgpath": "^2.3.1"
   },
   "harmony": {
-    "alias": "react-native-clippathview",
-    "codegenConfig": {
-      "specPaths": [
-        "./src"
-      ]
-    }
+    "alias": "react-native-clippathview"
   }
 }
