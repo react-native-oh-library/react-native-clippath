@@ -1,4 +1,4 @@
-# @react-native-oh-tpl/react-native-clippathview
+# @react-native-ohos/react-native-clippathview
 
 This project is based on [react-native-clippathview](https://github.com/Only-IceSoul/react-native-clippath)
 
